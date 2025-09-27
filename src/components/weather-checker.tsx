@@ -22,12 +22,26 @@ import { cn } from '@/lib/utils';
 const getDayOptions = () => {
   const options = [];
   const today = new Date();
-  const weekdays = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-
+  
   for (let i = 0; i < 6; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() + i);
-    const label = i === 0 ? 'Hoy' : i === 1 ? 'Mañana' : `${weekdays[date.getDay()]} ${date.getDate()}`;
+
+    const isToday = i === 0;
+    const isTomorrow = i === 1;
+
+    let label = date.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric' });
+    if (isToday) {
+      label = 'Hoy';
+    } else if (isTomorrow) {
+      label = 'Mañana';
+    }
+    
+    // Capitalize first letter
+    if (!isToday && !isTomorrow) {
+      label = label.charAt(0).toUpperCase() + label.slice(1);
+    }
+
     options.push({ value: i, label: label });
   }
   return options;

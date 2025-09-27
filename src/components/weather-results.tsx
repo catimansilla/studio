@@ -75,10 +75,13 @@ const formatDate = (dateString: string) => {
   const tomorrow = new Date();
   tomorrow.setDate(today.getDate() + 1);
 
-  if (date.toDateString() === today.toDateString()) {
+  const isToday = date.toDateString() === today.toDateString();
+  const isTomorrow = date.toDateString() === tomorrow.toDateString();
+
+  if (isToday) {
     return 'hoy';
   }
-  if (date.toDateString() === tomorrow.toDateString()) {
+  if (isTomorrow) {
     return 'mañana';
   }
   return date.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric' });
