@@ -10,14 +10,14 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Loader2, Sailboat, Waves } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { getWeatherAnalysis } from '@/app/actions';
 import type { WeatherAnalysisResult, Sport } from '@/lib/types';
 import WeatherResults from './weather-results';
 import { Skeleton } from './ui/skeleton';
 import { ToggleGroup, ToggleGroupItem } from './ui/toggle-group';
-import { cn } from '@/lib/utils';
+import { PaddleSurfIcon, WindSurfIcon } from './sport-icons';
 
 const getDayOptions = () => {
   const options = [];
@@ -110,11 +110,11 @@ export default function WeatherChecker() {
                     className="grid grid-cols-2 gap-2"
                 >
                     <ToggleGroupItem value="paddlesurf" aria-label="Paddle Surf" className="h-12 text-base">
-                        <Waves className="mr-2 h-5 w-5" />
+                        <PaddleSurfIcon className="mr-2 h-6 w-6" />
                         Paddle Surf
                     </ToggleGroupItem>
                     <ToggleGroupItem value="windsurf" aria-label="Windsurf" className="h-12 text-base">
-                        <Sailboat className="mr-2 h-5 w-5" />
+                        <WindSurfIcon className="mr-2 h-6 w-6" />
                         Windsurf
                     </ToggleGroupItem>
                 </ToggleGroup>
