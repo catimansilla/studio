@@ -29,7 +29,7 @@ export default function Home() {
       <footer className="mt-auto border-t">
         <div className="container mx-auto flex h-14 items-center justify-center px-4">
           <p className="text-sm text-muted-foreground">
-            Desarrollado con ❤️ para los remeros de Rosario.
+            Desarrollado con ❤️ para lxs remerxs de la mejor ciudad del mundo, Rosario.
           </p>
         </div>
       </footer>
