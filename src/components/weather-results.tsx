@@ -46,16 +46,32 @@ function windDirectionToCardinal(degrees: number) {
   return cardinals[index];
 }
 
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+
+  if (date.toDateString() === today.toDateString()) {
+    return 'hoy';
+  }
+  if (date.toDateString() === tomorrow.toDateString()) {
+    return 'mañana';
+  }
+  return date.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric' });
+};
+
 
 export default function WeatherResults({ result }: WeatherResultsProps) {
-  const { weather, condition, explanation, alternatives, hour } = result;
+  const { weather, condition, explanation, alternatives, hour, date } = result;
   const config = conditionConfig[condition];
   const Icon = config.icon;
+  const formattedDate = formatDate(date);
 
   return (
     <div className="animate-in fade-in-50 duration-500 space-y-6">
       <div className="flex flex-col items-center justify-center space-y-2">
-        <h3 className="text-lg font-medium text-muted-foreground">Condiciones para las {hour}:00 hs</h3>
+        <h3 className="text-lg font-medium text-muted-foreground">Condiciones para {formattedDate} a las {hour}:00 hs</h3>
         <Badge className={`text-lg px-4 py-2 rounded-full shadow-md ${config.className}`}>
           <Icon className="mr-2 h-5 w-5" />
           {config.text}

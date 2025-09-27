@@ -13,4 +13,5 @@ export type WeatherAnalysisResult = {
   explanation: string;
   alternatives: string | null;
   hour: number;
+  date: string;
 };

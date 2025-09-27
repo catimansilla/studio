@@ -17,11 +17,29 @@ import type { WeatherAnalysisResult } from '@/lib/types';
 import WeatherResults from './weather-results';
 import { Skeleton } from './ui/skeleton';
 
+const getDayOptions = () => {
+  const options = [];
+  const today = new Date();
+  const weekdays = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
+  for (let i = 0; i < 6; i++) {
+    const date = new Date(today);
+    date.setDate(today.getDate() + i);
+    const label = i === 0 ? 'Hoy' : i === 1 ? 'Mañana' : `${weekdays[date.getDay()]} ${date.getDate()}`;
+    options.push({ value: i, label: label });
+  }
+  return options;
+};
+
+
 export default function WeatherChecker() {
+  const [selectedDay, setSelectedDay] = useState<number | undefined>(0);
   const [selectedHour, setSelectedHour] = useState<number | undefined>(undefined);
   const [analysisResult, setAnalysisResult] = useState<WeatherAnalysisResult | null>(null);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+
+  const dayOptions = getDayOptions();
 
   useEffect(() => {
     // Set default hour to current hour on client mount to avoid hydration mismatch
@@ -29,10 +47,10 @@ export default function WeatherChecker() {
   }, []);
 
   const handleCheckWeather = () => {
-    if (selectedHour === undefined) {
+    if (selectedDay === undefined || selectedHour === undefined) {
       toast({
         title: 'Error',
-        description: 'Por favor, seleccione una hora.',
+        description: 'Por favor, seleccione un día y una hora.',
         variant: 'destructive',
       });
       return;
@@ -40,7 +58,7 @@ export default function WeatherChecker() {
 
     startTransition(async () => {
       try {
-        const result = await getWeatherAnalysis(selectedHour);
+        const result = await getWeatherAnalysis(selectedDay, selectedHour);
         setAnalysisResult(result);
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Un error desconocido ocurrió.';
@@ -60,37 +78,63 @@ export default function WeatherChecker() {
     <Card className="shadow-lg">
       <CardHeader>
         <CardTitle className="text-2xl font-headline">Chequear Condiciones</CardTitle>
-        <CardDescription>Seleccioná la hora en la que planeas remar para ver el pronóstico.</CardDescription>
+        <CardDescription>Seleccioná el día y la hora en la que planeas remar para ver el pronóstico.</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
-          <div className="flex-grow">
-            <label htmlFor="time-select" className="mb-2 block text-sm font-medium text-foreground">
-              Hora de Salida
-            </label>
-            {selectedHour !== undefined ? (
-              <Select
-                value={String(selectedHour)}
-                onValueChange={(value) => setSelectedHour(Number(value))}
-              >
-                <SelectTrigger id="time-select" className="w-full">
-                  <SelectValue placeholder="Seleccionar hora..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {hours.map((hour) => (
-                    <SelectItem key={hour} value={String(hour)}>
-                      {String(hour).padStart(2, '0')}:00 hs
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            ) : (
+           <div className="grid grid-cols-2 flex-grow gap-4">
+            <div>
+              <label htmlFor="day-select" className="mb-2 block text-sm font-medium text-foreground">
+                Día
+              </label>
+               {selectedDay !== undefined ? (
+                <Select
+                  value={String(selectedDay)}
+                  onValueChange={(value) => setSelectedDay(Number(value))}
+                >
+                  <SelectTrigger id="day-select" className="w-full">
+                    <SelectValue placeholder="Seleccionar día..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {dayOptions.map((option) => (
+                      <SelectItem key={option.value} value={String(option.value)}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
                 <Skeleton className="h-10 w-full" />
-            )}
+              )}
+            </div>
+            <div>
+              <label htmlFor="time-select" className="mb-2 block text-sm font-medium text-foreground">
+                Hora de Salida
+              </label>
+              {selectedHour !== undefined ? (
+                <Select
+                  value={String(selectedHour)}
+                  onValueChange={(value) => setSelectedHour(Number(value))}
+                >
+                  <SelectTrigger id="time-select" className="w-full">
+                    <SelectValue placeholder="Seleccionar hora..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {hours.map((hour) => (
+                      <SelectItem key={hour} value={String(hour)}>
+                        {String(hour).padStart(2, '0')}:00 hs
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                  <Skeleton className="h-10 w-full" />
+              )}
+            </div>
           </div>
           <Button
             onClick={handleCheckWeather}
-            disabled={isPending || selectedHour === undefined}
+            disabled={isPending || selectedHour === undefined || selectedDay === undefined}
             className="w-full sm:w-auto"
             size="lg"
           >
@@ -112,7 +156,7 @@ export default function WeatherChecker() {
             <WeatherResults result={analysisResult} />
           ) : (
             <div className="text-center text-muted-foreground py-10">
-              <p>Seleccioná una hora y presioná "Verificar" para ver las condiciones.</p>
+              <p>Seleccioná un día y una hora y presioná "Verificar" para ver las condiciones.</p>
             </div>
           )}
         </div>
