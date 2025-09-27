@@ -12,6 +12,7 @@ import {
   XCircle,
   Sparkles,
   Lightbulb,
+  Sailboat,
 } from 'lucide-react';
 import type { WeatherAnalysisResult, RowingCondition } from '@/lib/types';
 
@@ -19,7 +20,7 @@ interface WeatherResultsProps {
   result: WeatherAnalysisResult;
 }
 
-const conditionConfig: Record<
+const paddleSurfConfig: Record<
   RowingCondition,
   { text: string; className: string; icon: React.ElementType }
 > = {
@@ -39,6 +40,28 @@ const conditionConfig: Record<
     icon: XCircle,
   },
 };
+
+const windSurfConfig: Record<
+  RowingCondition,
+  { text: string; className: string; icon: React.ElementType }
+> = {
+  Optimal: {
+    text: 'Ideal',
+    className: 'bg-blue-600/80 hover:bg-blue-600/90 text-white border-blue-500',
+    icon: Sailboat,
+  },
+  Caution: {
+    text: 'Principiantes',
+    className: 'bg-green-600/80 hover:bg-green-600/90 text-white border-green-500',
+    icon: CheckCircle2,
+  },
+  'Not Suitable': {
+    text: 'Poco Viento',
+    className: 'bg-gray-500/80 hover:bg-gray-500/90 text-white border-gray-400',
+    icon: XCircle,
+  },
+};
+
 
 function windDirectionToCardinal(degrees: number) {
   const cardinals = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
@@ -63,15 +86,20 @@ const formatDate = (dateString: string) => {
 
 
 export default function WeatherResults({ result }: WeatherResultsProps) {
-  const { weather, condition, explanation, alternatives, hour, date } = result;
+  const { weather, condition, explanation, alternatives, hour, date, sport } = result;
+  
+  const isPaddleSurf = sport === 'paddlesurf';
+  const conditionConfig = isPaddleSurf ? paddleSurfConfig : windSurfConfig;
+
   const config = conditionConfig[condition];
   const Icon = config.icon;
   const formattedDate = formatDate(date);
+  const sportName = isPaddleSurf ? 'Paddle Surf' : 'Windsurf';
 
   return (
     <div className="animate-in fade-in-50 duration-500 space-y-6">
       <div className="flex flex-col items-center justify-center space-y-2">
-        <h3 className="text-lg font-medium text-muted-foreground">Condiciones para {formattedDate} a las {hour}:00 hs</h3>
+        <h3 className="text-lg font-medium text-muted-foreground">Condiciones para {sportName} {formattedDate} a las {hour}:00 hs</h3>
         <Badge className={`text-lg px-4 py-2 rounded-full shadow-md ${config.className}`}>
           <Icon className="mr-2 h-5 w-5" />
           {config.text}

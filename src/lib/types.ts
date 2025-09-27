@@ -1,4 +1,5 @@
 export type RowingCondition = 'Optimal' | 'Caution' | 'Not Suitable';
+export type Sport = 'paddlesurf' | 'windsurf';
 
 export type WeatherData = {
   temperature: number;
@@ -14,4 +15,5 @@ export type WeatherAnalysisResult = {
   alternatives: string | null;
   hour: number;
   date: string;
+  sport: Sport;
 };
