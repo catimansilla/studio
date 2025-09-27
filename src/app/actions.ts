@@ -44,7 +44,10 @@ export async function getWeatherAnalysis(
     }
 
     const [explanationResult, alternativesResult] = await Promise.all([
-      generateWeatherExplanation(weatherData),
+      generateWeatherExplanation({
+        ...weatherData,
+        windDirection: String(weatherData.windDirection),
+      }),
       condition !== 'Optimal'
         ? suggestAlternativeRowingTimes({
             ...weatherData,
