@@ -22,6 +22,10 @@ export async function getWeatherAnalysis(
     }
 
     const data = await response.json();
+    
+    if (!data || !data.hourly || !data.hourly.time || data.hourly.time.length <= hour) {
+      throw new Error('Datos meteorológicos inválidos o incompletos recibidos.');
+    }
 
     const weatherData = {
       temperature: Math.round(data.hourly.temperature_2m[hour]),
@@ -63,6 +67,9 @@ export async function getWeatherAnalysis(
     };
   } catch (error) {
     console.error('Error in getWeatherAnalysis:', error);
+    if (error instanceof Error) {
+        throw new Error(`Ocurrió un error al analizar las condiciones climáticas: ${error.message}`);
+    }
     throw new Error('Ocurrió un error al analizar las condiciones climáticas.');
   }
 }
