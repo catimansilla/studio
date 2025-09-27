@@ -1,6 +1,5 @@
 import { BridgeIcon } from '@/components/icons';
 import WeatherChecker from '@/components/weather-checker';
-import WindguruEmbed from '@/components/windguru-embed';
 import { Card } from '@/components/ui/card';
 
 export default function Home() {
@@ -19,12 +18,9 @@ export default function Home() {
 
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-            <div className="lg:col-span-2">
+          <div className="grid grid-cols-1 gap-8">
+            <div>
               <WeatherChecker />
-            </div>
-            <div className="lg:col-span-1">
-              <WindguruEmbed />
             </div>
           </div>
         </div>
