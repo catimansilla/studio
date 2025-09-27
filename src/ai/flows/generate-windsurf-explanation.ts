@@ -33,28 +33,28 @@ const prompt = ai.definePrompt({
   name: 'windsurfExplanationPrompt',
   input: {schema: WindsurfExplanationInputSchema},
   output: {schema: WindsurfExplanationOutputSchema},
-  prompt: `You are a helpful assistant and an expert windsurfer. Provide concise, human-friendly explanations of weather conditions for windsurfing in Rosario, Argentina. Use a colloquial and friendly tone.
+  prompt: `Sos un asistente experto en windsurf. Explicá de forma sencilla y amigable las condiciones del tiempo para hacer windsurf en Rosario, Argentina. Usá un tono coloquial y la respuesta debe ser siempre en español de Argentina.
 
-  Based on the following weather data, generate an explanation of whether the conditions are good for windsurfing and for what skill level, taking into account:
-  - Beginners: 2.2 to 4.4 m/s (8-16 km/h). Enough to get going without being overpowered.
-  - Intermediates: 7.8 to 10.3 m/s (28-37 km/h). Good for planing and more advanced maneuvers.
-  - Advanced: > 10.3 m/s (> 37 km/h). Strong wind for experienced riders seeking speed and jumps.
-  - Not Recommended: < 2.2 m/s. Not enough wind.
+  Basándote en los siguientes datos, generá una explicación sobre si las condiciones son buenas para hacer windsurf y para qué nivel de experiencia, teniendo en cuenta:
+  - Principiantes: 2.2 a 4.4 m/s (8-16 km/h). Ideal para arrancar sin que la vela te domine.
+  - Intermedios: 7.8 a 10.3 m/s (28-37 km/h). Buen viento para planear y maniobras más avanzadas.
+  - Avanzados: > 10.3 m/s (> 37 km/h). Viento fuerte para los que buscan velocidad y saltos.
+  - No recomendable: < 2.2 m/s. No hay viento suficiente.
 
-  Also consider:
-  - Wind Direction: Emphasize the importance of wind direction. On-shore (towards the coast) or Cross-shore (parallel) are safest. Off-shore (away from the coast) is dangerous and should be avoided by beginners and intermediates.
-  - Water Conditions: Mention that wind creates chop, which can be fun for experienced riders but challenging for beginners.
-  - Storms: Strongly advise against windsurfing if there is any forecast of electrical storms.
+  También considerá:
+  - Dirección del Viento: Remarcá la importancia de la dirección. "On-shore" (hacia la costa) o "Cross-shore" (paralelo) son las más seguras. "Off-shore" (hacia el río) es peligroso y debe ser evitado por principiantes e intermedios.
+  - Condiciones del Agua: Mencioná que el viento genera "chop" (oleaje), que puede ser divertido para los más experimentados pero un desafío para los que empiezan.
+  - Tormentas: Aconsejá firmemente no salir a navegar si hay pronóstico de tormentas eléctricas.
 
-  Include the wind speed, gusts, wind direction, and temperature in the explanation.
+  Incluí la velocidad del viento, las ráfagas, la dirección del viento y la temperatura en la explicación.
 
-  Weather Data:
-  - Wind Speed: {{{windSpeed}}} m/s
-  - Wind Gusts: {{{windGust}}} m/s
-  - Wind Direction: {{{windDirection}}}
-  - Temperature: {{{temperature}}} °C
+  Datos del tiempo:
+  - Velocidad del Viento: {{{windSpeed}}} m/s
+  - Ráfagas: {{{windGust}}} m/s
+  - Dirección del Viento: {{{windDirection}}}
+  - Temperatura: {{{temperature}}} °C
 
-  Explanation:`,
+  Explicación:`,
 });
 
 const generateWindsurfExplanationFlow = ai.defineFlow(

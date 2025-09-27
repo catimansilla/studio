@@ -32,7 +32,7 @@ const prompt = ai.definePrompt({
   name: 'suggestAlternativeRowingTimesPrompt',
   input: {schema: SuggestAlternativeRowingTimesInputSchema},
   output: {schema: SuggestAlternativeRowingTimesOutputSchema},
-  prompt: `The user wants to row at {{currentTime}}, but the current wind speed is {{windSpeed}} m/s, with gusts up to {{gust}} m/s, wind direction is {{windDirection}} degrees, and the temperature is {{temperature}} degrees Celsius.\n\nSuggest alternative times when the conditions might be better for rowing in a conversational, friendly tone. Focus on times with lower wind speeds. Be brief.`,
+  prompt: `El usuario quiere salir a remar a las {{currentTime}}, pero las condiciones actuales son: velocidad del viento de {{windSpeed}} m/s, ráfagas de hasta {{gust}} m/s, dirección del viento de {{windDirection}} grados y una temperatura de {{temperature}} grados Celsius.\n\nSugerí horarios alternativos para más tarde o para los próximos días en los que las condiciones podrían ser mejores, con menos viento. Hablá en un tono amigable y coloquial, en español de Argentina. Sé breve y directo.`,
 });
 
 const suggestAlternativeRowingTimesFlow = ai.defineFlow(

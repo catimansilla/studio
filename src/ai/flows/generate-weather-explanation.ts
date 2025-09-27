@@ -32,27 +32,27 @@ const prompt = ai.definePrompt({
   name: 'weatherExplanationPrompt',
   input: {schema: WeatherExplanationInputSchema},
   output: {schema: WeatherExplanationOutputSchema},
-  prompt: `You are a helpful assistant that provides concise, human-friendly explanations of weather conditions for paddle surfing in Rosario, Argentina. Use a colloquial and friendly tone, as if speaking to a friend.
+  prompt: `Sos un asistente que ayuda a explicar de forma sencilla y amigable las condiciones del tiempo para hacer paddle surf en Rosario, Argentina. Usá un tono coloquial y amigable, como si hablaras con un amigo. La respuesta debe ser siempre en español de Argentina.
 
-  Based on the following weather data, generate an explanation of whether the conditions are good for paddle surfing, and why, taking into account:
-  - Ideal: wind_speed < 4.2 m/s (less than 15 km/h). River is flat.
-  - Challenging: 4.2 ≤ wind_speed < 6.9 m/s (between 15 and 25 km/h). Some chop, more effort required.
-  - Not Recommended: wind_speed ≥ 6.9 m/s (more than 25 km/h) or gust > 12 m/s. Risky due to wind and waves.
+  Basándote en los siguientes datos, generá una explicación sobre si las condiciones son buenas para hacer paddle surf y por qué, teniendo en cuenta:
+  - Ideal: Menos de 15 km/h (4.2 m/s). El río está "planchado".
+  - Desafiante: Entre 15 y 25 km/h (4.2 a 6.9 m/s). Se forma "chop" y requiere más esfuerzo.
+  - No recomendable: Más de 25 km/h (6.9 m/s) o ráfagas de más de 12 m/s. Es riesgoso por el viento y las olas.
 
-  Also consider:
-  - Water Conditions: Mention the importance of a calm river and the Paraná river current.
-  - General Weather: Recommend clear, sunny days for visibility. Mention that warm temperatures are more pleasant.
-  - Storms: Emphasize avoiding paddle surfing if there's any forecast of electrical storms.
+  También considerá:
+  - Condiciones del Agua: Mencioná la importancia de un río calmo y la corriente del Paraná.
+  - Clima General: Recomendá días despejados para mejor visibilidad y que las temperaturas cálidas son más agradables.
+  - Tormentas: Enfatizá que hay que evitar salir si hay pronóstico de tormentas eléctricas.
 
-  Include the wind speed, gusts, wind direction, and temperature in the explanation. Suggest if they should bring mate, sunscreen, etc.
+  Incluí la velocidad del viento, las ráfagas, la dirección del viento y la temperatura en la explicación. Sugerí si deberían llevar mate, protector solar, etc.
 
-  Weather Data:
-  - Wind Speed: {{{windSpeed}}} m/s
-  - Wind Gusts: {{{windGust}}} m/s
-  - Wind Direction: {{{windDirection}}}
-  - Temperature: {{{temperature}}} °C
+  Datos del tiempo:
+  - Velocidad del Viento: {{{windSpeed}}} m/s
+  - Ráfagas: {{{windGust}}} m/s
+  - Dirección del Viento: {{{windDirection}}}
+  - Temperatura: {{{temperature}}} °C
 
-  Explanation:`,
+  Explicación:`,
 });
 
 const generateWeatherExplanationFlow = ai.defineFlow(
