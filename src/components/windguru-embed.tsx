@@ -10,7 +10,7 @@ export default function WindguruEmbed() {
       <CardContent>
         <div className="aspect-[3/4] overflow-hidden rounded-md border">
           <iframe
-            src="https://www.windguru.cz/int/iframe.php?id_spot=221"
+            src="https://www.windguru.cz/iframe/221"
             className="h-full w-full"
             title="Windguru Rosario Forecast"
             loading="lazy"
