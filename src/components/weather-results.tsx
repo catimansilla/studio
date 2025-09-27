@@ -104,7 +104,7 @@ export default function WeatherResults({ result }: WeatherResultsProps) {
       <Card className="bg-card/50">
         <CardHeader className="flex-row items-center gap-3 space-y-0">
           <Sparkles className="h-6 w-6 text-primary" />
-          <CardTitle>Recomendación de la IA</CardTitle>
+          <CardTitle>Recomendación:</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-lg text-foreground/90">{explanation}</p>
