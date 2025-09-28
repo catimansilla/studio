@@ -4,6 +4,9 @@ import { generateWeatherExplanation } from '@/ai/flows/generate-weather-explanat
 import { generateWindsurfExplanation } from '@/ai/flows/generate-windsurf-explanation';
 import { suggestAlternativeRowingTimes } from '@/ai/flows/suggest-alternative-rowing-times';
 import type { WeatherAnalysisResult, RowingCondition, Sport } from '@/lib/types';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
 
 const ROSARIO_LAT = -32.95;
 const ROSARIO_LON = -60.64;
@@ -33,7 +36,8 @@ function getWindsurfCondition(windSpeed: number): RowingCondition {
 export async function getWeatherAnalysis(
   day: number,
   hour: number,
-  sport: Sport
+  sport: Sport,
+  userId?: string | null
 ): Promise<WeatherAnalysisResult> {
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${ROSARIO_LAT}&longitude=${ROSARIO_LON}&hourly=temperature_2m,wind_speed_10m,wind_gusts_10m,wind_direction_10m&wind_speed_unit=ms&timezone=auto&forecast_days=6`;
@@ -96,7 +100,7 @@ export async function getWeatherAnalysis(
     const targetDate = new Date();
     targetDate.setDate(targetDate.getDate() + day);
 
-    return {
+    const result: WeatherAnalysisResult = {
       weather: weatherData,
       condition: condition,
       explanation: explanationResult.explanation,
@@ -105,6 +109,23 @@ export async function getWeatherAnalysis(
       date: targetDate.toISOString(),
       sport: sport,
     };
+
+    if (userId) {
+        try {
+            await addDoc(collection(db, 'queries'), {
+                ...result,
+                userId: userId,
+                createdAt: serverTimestamp()
+            });
+        } catch (dbError) {
+            console.error("Error writing to Firestore: ", dbError);
+            // We don't re-throw the error, as the main function (weather analysis) was successful.
+            // We just log it for debugging.
+        }
+    }
+
+
+    return result;
   } catch (error) {
     console.error('Error in getWeatherAnalysis:', error);
     if (error instanceof Error) {

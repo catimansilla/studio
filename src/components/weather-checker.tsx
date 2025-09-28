@@ -18,6 +18,7 @@ import WeatherResults from './weather-results';
 import { Skeleton } from './ui/skeleton';
 import { ToggleGroup, ToggleGroupItem } from './ui/toggle-group';
 import { PaddleSurfIcon, WindSurfIcon } from './sport-icons';
+import { useAuth } from './auth-provider';
 
 const getDayOptions = () => {
   const options = [];
@@ -55,6 +56,7 @@ export default function WeatherChecker() {
   const [analysisResult, setAnalysisResult] = useState<WeatherAnalysisResult | null>(null);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const dayOptions = getDayOptions();
 
@@ -75,7 +77,7 @@ export default function WeatherChecker() {
 
     startTransition(async () => {
       try {
-        const result = await getWeatherAnalysis(selectedDay, selectedHour, selectedSport);
+        const result = await getWeatherAnalysis(selectedDay, selectedHour, selectedSport, user?.uid);
         setAnalysisResult(result);
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Un error desconocido ocurrió.';
