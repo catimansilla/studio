@@ -1,6 +1,6 @@
 import { BridgeIcon } from '@/components/icons';
+import UserMenu from '@/components/user-menu';
 import WeatherChecker from '@/components/weather-checker';
-import { Card } from '@/components/ui/card';
 
 export default function Home() {
   return (
@@ -8,11 +8,12 @@ export default function Home() {
       <header className="sticky top-0 z-10 border-b bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-3">
-            <BridgeIcon className="h-10 w-10 text-primary" />
+            <BridgeIcon className="h-12 w-12 text-primary" />
             <h1 className="font-headline text-xl font-semibold tracking-tight text-foreground">
               Rosario <span className="text-primary">RemAIr</span>
             </h1>
           </div>
+          <UserMenu />
         </div>
       </header>
 
